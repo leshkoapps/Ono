@@ -1,6 +1,6 @@
 // ONOXPathFunctionResultTests.m
 //
-// Copyright (c) 2014 Mattt Thompson (http://mattt.me/)
+// Copyright (c) 2014 – 2018 Mattt (https://mat.tt)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -47,13 +47,13 @@
 - (void)testFunctionResultBoolVaule {
     NSString *XPath = @"starts-with('Ono','O')";
     ONOXPathFunctionResult *result = [self.document.rootElement functionResultByEvaluatingXPath:XPath];
-    XCTAssertTrue(result.boolValue, "Result boolVaule should be true");
+    XCTAssertTrue(result.boolValue, "Result should be true");
 }
 
-- (void)testFunctionResultNumericValue {
+- (void)testFunctionResultNumberValue {
     NSString *XPath = @"count(./atom:link)";
     ONOXPathFunctionResult *result = [self.document.rootElement functionResultByEvaluatingXPath:XPath];
-    XCTAssertEqual(result.numericValue, 2, "Number of child links should be 2");
+    XCTAssertEqual([result.numberValue integerValue], 2, "Number of child links should be 2");
 }
 
 - (void)testFunctionResultStringVaule {

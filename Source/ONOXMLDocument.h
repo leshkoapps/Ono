@@ -1,6 +1,6 @@
 // ONOXMLDocument.h
 //
-// Copyright (c) 2014 Mattt Thompson (http://mattt.me/)
+// Copyright (c) 2014 – 2018 Mattt (https://mat.tt)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+@import Foundation;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-missing-property-synthesis"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @class ONOXMLElement;
 
@@ -54,7 +59,7 @@
  
  @return The function result
  */
-- (ONOXPathFunctionResult *)functionResultByEvaluatingXPath:(NSString *)XPath;
+- (nullable ONOXPathFunctionResult *)functionResultByEvaluatingXPath:(NSString *)XPath;
 
 /**
  @deprecated Use `enumerateElementsWithXPath:usingBlock:` instead
@@ -81,7 +86,7 @@
  
  @return The child element.
  */
-- (ONOXMLElement *)firstChildWithXPath:(NSString *)XPath;
+- (nullable ONOXMLElement *)firstChildWithXPath:(NSString *)XPath;
 
 ///---------------------------
 /// @name Searching with CSS
@@ -121,7 +126,7 @@
  
  @return The child element.
  */
-- (ONOXMLElement *)firstChildWithCSS:(NSString *)CSS;
+- (nullable ONOXMLElement *)firstChildWithCSS:(NSString *)CSS;
 
 @end
 
@@ -161,12 +166,16 @@
 ///------------------------------------
 
 /**
- The formatter used to determine `numberValue` for elements in the document. By default, this is an `NSNumberFormatter` instance with `NSNumberFormatterDecimalStyle`.
+ The formatter used to determine `numberValue` for elements in the document.
+ 
+ By default, this is an `NSNumberFormatter` instance with `NSNumberFormatterDecimalStyle`.
  */
 @property (readonly, nonatomic, strong) NSNumberFormatter *numberFormatter;
 
 /**
- The formatter used to determine `dateValue` for elements in the document. By default, this is an `NSDateFormatter` instance configured to accept ISO 8601 formatted timestamps.
+ The formatter used to determine `dateValue` for elements in the document.
+ 
+ By default, this is an `NSDateFormatter` instance configured to accept ISO 8601 formatted timestamps.
  
  @see http://en.wikipedia.org/wiki/ISO_8601
  */
@@ -185,9 +194,9 @@
  
  @return An `ONOXMLDocument` with the contents of the specified XML string.
  */
-+ (instancetype)XMLDocumentWithString:(NSString *)string
-                             encoding:(NSStringEncoding)encoding
-                                error:(NSError * __autoreleasing *)error;
++ (nullable instancetype)XMLDocumentWithString:(NSString *)string
+                                      encoding:(NSStringEncoding)encoding
+                                         error:(NSError * __autoreleasing *)error;
 
 /**
  Creates and returns an instance of ONOXMLDocument from XML data.
@@ -197,8 +206,8 @@
 
  @return An `ONOXMLDocument` with the contents of the specified XML data.
  */
-+ (instancetype)XMLDocumentWithData:(NSData *)data
-                              error:(NSError * __autoreleasing *)error;
++ (nullable instancetype)XMLDocumentWithData:(nullable NSData *)data
+                                       error:(NSError * __autoreleasing *)error;
 
 ///------------------------------
 /// @name Creating HTML Documents
@@ -213,9 +222,9 @@
 
  @return An `ONOXMLDocument` with the contents of the specified HTML string.
  */
-+ (instancetype)HTMLDocumentWithString:(NSString *)string
-                              encoding:(NSStringEncoding)encoding
-                                 error:(NSError * __autoreleasing *)error;
++ (nullable instancetype)HTMLDocumentWithString:(NSString *)string
+                                       encoding:(NSStringEncoding)encoding
+                                          error:(NSError * __autoreleasing *)error;
 
 /**
  Creates and returns an instance of ONOXMLDocument from HTML data.
@@ -225,8 +234,8 @@
 
  @return An `ONOXMLDocument` with the contents of the specified HTML string.
  */
-+ (instancetype)HTMLDocumentWithData:(NSData *)data
-                               error:(NSError * __autoreleasing *)error;
++ (nullable instancetype)HTMLDocumentWithData:(nullable NSData *)data
+                                        error:(NSError * __autoreleasing *)error;
 
 ///------------------------------------------
 /// @name Defining Default Namespace Prefixes
@@ -259,9 +268,9 @@
  The element's namespace.
  */
 #ifdef __cplusplus
-@property (readonly, nonatomic, copy) NSString *ns;
+@property (nullable, readonly, nonatomic, copy) NSString *ns;
 #else
-@property (readonly, nonatomic, copy) NSString *namespace;
+@property (nullable, readonly, nonatomic, copy) NSString *namespace;
 #endif
 
 /**
@@ -281,7 +290,7 @@
 /**
  All attributes for the element.
  */
-@property (readonly, nonatomic, strong) NSDictionary *attributes;
+@property (readonly, nonatomic, strong) NSDictionary<NSString *, id> *attributes;
 
 /**
  Returns the value for the specified attribute.
@@ -290,7 +299,7 @@
  
  @return The associated value.
  */
-- (id)valueForAttribute:(NSString *)attribute;
+- (nullable id)valueForAttribute:(NSString *)attribute;
 
 /**
  Returns the value for an attribute in a particular namespace.
@@ -300,8 +309,8 @@
 
  @return The associated value.
  */
-- (id)valueForAttribute:(NSString *)attribute
-            inNamespace:(NSString *)ns;
+- (nullable id)valueForAttribute:(NSString *)attribute
+                     inNamespace:(nullable NSString *)ns;
 
 ///----------------------------------------------------
 /// @name Accessing Parent, Child, and Sibling Elements
@@ -310,22 +319,22 @@
 /**
  The element's parent element.
  */
-@property (readonly, nonatomic, strong) ONOXMLElement *parent;
+@property (nullable, readonly, nonatomic, strong) ONOXMLElement *parent;
 
 /**
  The element's children elements.
  */
-@property (readonly, nonatomic, strong) NSArray *children;
+@property (readonly, nonatomic, strong) NSArray<ONOXMLElement *> *children;
 
 /**
  The element's previous sibling.
  */
-@property (readonly, nonatomic, strong) ONOXMLElement *previousSibling;
+@property (nullable, readonly, nonatomic, strong) ONOXMLElement *previousSibling;
 
 /**
  The element's next sibling.
  */
-@property (readonly, nonatomic, strong) ONOXMLElement *nextSibling;
+@property (nullable, readonly, nonatomic, strong) ONOXMLElement *nextSibling;
 
 /**
  Returns the first child element with the specified tag, or `nil` if no such element exists.
@@ -334,7 +343,7 @@
  
  @return The child element.
  */
-- (ONOXMLElement *)firstChildWithTag:(NSString *)tag;
+- (nullable ONOXMLElement *)firstChildWithTag:(NSString *)tag;
 
 /**
  Returns the first child element with a tag in a particular namespace, or `nil` if no such element exists.
@@ -344,8 +353,8 @@
 
  @return The child element.
  */
-- (ONOXMLElement *)firstChildWithTag:(NSString *)tag
-                         inNamespace:(NSString *)ns;
+- (nullable ONOXMLElement *)firstChildWithTag:(NSString *)tag
+                                  inNamespace:(nullable NSString *)ns;
 
 /**
  Returns all children elements with the specified tag.
@@ -354,7 +363,7 @@
 
  @return The children elements.
  */
-- (NSArray *)childrenWithTag:(NSString *)tag;
+- (NSArray<ONOXMLElement *> *)childrenWithTag:(NSString *)tag;
 
 /**
  Returns all children elements with the specified tag.
@@ -364,8 +373,8 @@
 
  @return The children elements.
  */
-- (NSArray *)childrenWithTag:(NSString *)tag
-                 inNamespace:(NSString *)ns;
+- (NSArray<ONOXMLElement *> *)childrenWithTag:(NSString *)tag
+                                  inNamespace:(nullable NSString *)ns;
 
 ///------------------------
 /// @name Accessing Content
@@ -378,24 +387,18 @@
 
 /**
  A string representation of the element's value.
- 
- @return The string value.
  */
-- (NSString *)stringValue;
+@property (nullable, readonly, nonatomic, copy) NSString *stringValue;
 
 /**
  A number representation of the element's value, which is generated from the document's `numberFormatter` property.
- 
- @return The number value;
  */
-- (NSNumber *)numberValue;
+@property (nullable, readonly, nonatomic, copy) NSNumber *numberValue;
 
 /**
  A date representation of the element's value, which is generated from the document's `dateFormatter` property.
- 
- @return The date value.
  */
-- (NSDate *)dateValue;
+@property (nullable, readonly, nonatomic, copy) NSDate *dateValue;
 
 ///--------------------------------------
 /// @name Subscripted Convenience Methods
@@ -408,7 +411,7 @@
  
  @return The child element.
  */
-- (id)objectAtIndexedSubscript:(NSUInteger)idx;
+- (nullable id)objectAtIndexedSubscript:(NSUInteger)idx;
 
 /**
  Returns the value for the attribute with the specified key.
@@ -417,29 +420,36 @@
  
  @return The attribute value, or `nil` if the attribute is not defined.
  */
-- (id)objectForKeyedSubscript:(id)key;
+- (nullable id)objectForKeyedSubscript:(id)key;
 
 @end
 
 /**
- `ONOXPathFunctionResult` represents a XPath function result in an `ONOXPathFunctionResult`.
+ `ONOXPathFunctionResult` represents a XPath function result.
  */
 @interface ONOXPathFunctionResult : NSObject
 
 /**
- represents `boolval` in `xmlXPathObject`
- */
-@property (readonly, nonatomic) BOOL boolValue;
+ The Boolean value of the function result.
+  */
+@property (readonly, nonatomic, assign) BOOL boolValue;
 
 /**
- represents `floatval` in `xmlXPathObject`
+ The floating point value of the function result.
+ 
+ @deprecated Use the `numberValue` property instead.
  */
-@property (readonly, nonatomic) double numericValue;
+@property (readonly, nonatomic) double numericValue DEPRECATED_ATTRIBUTE;
 
 /**
- represents `stringval` in `xmlXPathObject`
+ The numeric value of the function result.
  */
-@property (readonly, nonatomic, copy) NSString *stringValue;
+@property (nullable, readonly, nonatomic, copy) NSNumber *numberValue;
+
+/**
+ The string value of the function result.
+ */
+@property (nullable, readonly, nonatomic, copy) NSString *stringValue;
 
 @end
 
@@ -460,3 +470,7 @@
  Ono errors. Error codes for `ONOErrorDomain` are not currently defined.
  */
 extern NSString * const ONOErrorDomain;
+
+NS_ASSUME_NONNULL_END
+
+#pragma clang diagnostic pop

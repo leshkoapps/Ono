@@ -1,6 +1,6 @@
 // main.m
 //
-// Copyright (c) 2014 Mattt Thompson (http://mattt.me/)
+// Copyright (c) 2014 – 2018 Mattt (https://mat.tt)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,15 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
-
-#import <Ono/Ono.h>
+@import Foundation;
+@import Ono;
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         NSError *error = nil;
         NSString *XMLFilePath = [[@(__FILE__) stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"nutrition.xml"];
-        ONOXMLDocument *document = [ONOXMLDocument XMLDocumentWithData:[NSData dataWithContentsOfFile:XMLFilePath] error:&error];
+        NSData *data = [NSData dataWithContentsOfFile:XMLFilePath];
+        ONOXMLDocument *document = [ONOXMLDocument XMLDocumentWithData:data error:&error];
         if (error) {
             NSLog(@"[Error] %@", error);
             return 0;

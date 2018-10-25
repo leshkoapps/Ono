@@ -1,6 +1,6 @@
 // ONOXMLTests.m
 //
-// Copyright (c) 2014 Mattt Thompson (http://mattt.me/)
+// Copyright (c) 2014 – 2018 Mattt (https://mat.tt)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -83,13 +83,6 @@
 
     XCTAssertNotNil(headerElement, @"header element should not be nil");
     XCTAssertEqual(headerElement.lineNumber, 123, @"header line number should be correct");
-}
-
-- (void)testReturnsErrorWithNilXMLDocument {
-    NSError *error;
-    self.document = [ONOXMLDocument XMLDocumentWithData:nil error:&error];
-    XCTAssertNotNil(error, @"error should not be nil");
-    XCTAssertNotNil(error.userInfo[NSLocalizedFailureReasonErrorKey], @"error should have a localized failure reason");
 }
 
 @end

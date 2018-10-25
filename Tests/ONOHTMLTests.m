@@ -1,6 +1,6 @@
 // ONOHTMLTests.m
 // 
-// Copyright (c) 2014 Mattt Thompson
+// Copyright (c) 2014 – 2018 Mattt (https://mat.tt)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -48,11 +48,11 @@
 }
 
 - (void)testRootElementChildren {
-    NSArray *children = [self.document.rootElement children];
+    NSArray<ONOXMLElement *> *children = [self.document.rootElement children];
     XCTAssertNotNil(children, @"children should not be nil");
     XCTAssertTrue([children count] == 2, @"root element has more than two children");
-    XCTAssertEqualObjects([[children firstObject] tag], @"head", @"head not first child of html");
-    XCTAssertEqualObjects([[children lastObject] tag], @"body", @"body not last child of html");
+    XCTAssertEqualObjects([(ONOXMLElement *)[children firstObject] tag], @"head", @"head not first child of html");
+    XCTAssertEqualObjects([(ONOXMLElement *)[children lastObject] tag], @"body", @"body not last child of html");
 }
 
 - (void)testTitleXPath {
@@ -83,13 +83,6 @@
         idx++;
     }
     XCTAssertTrue(idx == 1, @"fewer than one element found");
-}
-
-- (void)testReturnsErrorWithNilHTMLDocument {
-    NSError *error;
-    self.document = [ONOXMLDocument HTMLDocumentWithData:nil error:&error];
-    XCTAssertNotNil(error, @"error should not be nil");
-    XCTAssertNotNil(error.userInfo[NSLocalizedFailureReasonErrorKey], @"error should have a localized failure reason");
 }
 
 @end

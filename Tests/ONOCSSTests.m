@@ -1,6 +1,6 @@
 // ONOCSSTests.m
 // 
-// Copyright (c) 2014 Mattt Thompson
+// Copyright (c) 2014 – 2018 Mattt (https://mat.tt)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -81,6 +81,10 @@ extern NSString * ONOXPathFromCSS(NSString *CSS);
 
 - (void)testCSSAttributeSelector {
     XCTAssertEqualObjects(ONOXPathFromCSS(@"img[alt]"), @".//img[@alt]");
+}
+
+- (void)testCSSCombinedSelector {
+    XCTAssertEqualObjects(ONOXPathFromCSS(@"div#test .note span:first-child"), @".//div[@id = 'test']/descendant::*[contains(concat(' ',normalize-space(@class),' '),' note ')]/descendant::span:first-child");
 }
 
 /*
